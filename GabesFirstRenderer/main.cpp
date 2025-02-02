@@ -26,11 +26,6 @@ const char* fragShaderSource = "#version 330 core\n"
 "{\n"
 "	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 "}\0";
-float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
-};
 
 void processInput(GLFWwindow* window);
 void initGLAD(), initGeometry(), renderLoop();
@@ -73,8 +68,33 @@ GLFWwindow* create_window(int width, int height) {
 	return window;
 }
 
+unsigned int setupShaderProgram() {
+	shaderManager.CompileAndAdd(vertexShaderSource, GL_VERTEX_SHADER);
+	shaderManager.CompileAndAdd(fragShaderSource, GL_FRAGMENT_SHADER);
+
+	return shaderManager.BuildAndLink();
+}
+
 void initGeometry() {
-	meshManager.Add(new Mesh(vertices, sizeof(vertices)));
+	float triVerts[] = {
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.0f,  0.5f, 0.0f
+	};
+
+	float rectVerts[] = {
+			0.5f,  0.5f, 0.0f,  // top right
+			0.5f, -0.5f, 0.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f,  // bottom left
+		-0.5f,  0.5f, 0.0f   // top left 
+	};
+	unsigned int rectIndices[] = {  // note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
+	};
+
+	//meshManager.Add(new Mesh(triVerts, sizeof(triVerts)));
+	meshManager.Add(new Mesh(rectVerts, sizeof(rectVerts), rectIndices, sizeof(rectIndices)));
 }
 
 void renderLoop() {
@@ -84,13 +104,6 @@ void renderLoop() {
 	glUseProgram(shaderProgram);
 
 	meshManager.RenderAll();
-}
-
-unsigned int setupShaderProgram() {
-	shaderManager.CompileAndAdd(vertexShaderSource, GL_VERTEX_SHADER);
-	shaderManager.CompileAndAdd(fragShaderSource, GL_FRAGMENT_SHADER);
-
-	return shaderManager.BuildAndLink();
 }
 
 int main() {

@@ -1,3 +1,2 @@
-﻿  MeshManager.cpp
-C:\Users\glaba\source\repos\GabesFirstRenderer\GabesFirstRenderer\MeshManager.cpp(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  GabesFirstRenderer.vcxproj -> C:\Users\glaba\source\repos\GabesFirstRenderer\x64\Debug\GabesFirstRenderer.exe
+﻿  Mesh.cpp
+  GabesFirstRenderer.vcxproj -> C:\Users\glaba\Documents\GitHub\GRenderer\x64\Debug\GabesFirstRenderer.exe

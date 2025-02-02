@@ -1,0 +1,89 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Mesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\Mesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\MeshManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\MeshManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Mesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\Mesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\main.cpp",
+              "RelativeDocumentMoniker": "GabesFirstRenderer\\main.cpp",
+              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\main.cpp",
+              "RelativeToolTip": "GabesFirstRenderer\\main.cpp",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAAAI8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-02T07:29:51.432Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Mesh.h",
+              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Mesh.h",
+              "RelativeDocumentMoniker": "GabesFirstRenderer\\Mesh.h",
+              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Mesh.h",
+              "RelativeToolTip": "GabesFirstRenderer\\Mesh.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-02T07:31:59.079Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Mesh.cpp",
+              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Mesh.cpp",
+              "RelativeDocumentMoniker": "GabesFirstRenderer\\Mesh.cpp",
+              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Mesh.cpp",
+              "RelativeToolTip": "GabesFirstRenderer\\Mesh.cpp",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB4AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-02T07:31:58.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MeshManager.cpp",
+              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\MeshManager.cpp",
+              "RelativeDocumentMoniker": "GabesFirstRenderer\\MeshManager.cpp",
+              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\MeshManager.cpp",
+              "RelativeToolTip": "GabesFirstRenderer\\MeshManager.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-02T07:38:51.237Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

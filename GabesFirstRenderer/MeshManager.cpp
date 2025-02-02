@@ -10,7 +10,6 @@ void MeshManager::RenderAll() {
 	int i;
 
 	for (i = 0; i < _vaos.size(); i++) {
-		glBindVertexArray(_vaos[i]->data);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		_vaos[i]->Draw();
 	}
 }
