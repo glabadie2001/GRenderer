@@ -1,6 +1,8 @@
 #ifndef MESH_H
 #define MESH_H
 
+#include "Shader.h"
+
 class Mesh {
 	//VAO in OpenGL
 	unsigned int _vertices;
@@ -12,10 +14,15 @@ class Mesh {
 	unsigned int _vbo;
 
 public:
-	Mesh(float* vertices, int count);
-	Mesh(float* vertices, int vCount, unsigned int* indices, int iCount);
-	void Draw();
+	Shader* shader;
+	Mesh(float* vertices, int count, Shader* shader);
+	Mesh(float* vertices, int vCount, unsigned int* indices, int iCount, Shader* shader);
 	~Mesh();
+
+	unsigned int getVertices() const;
+	unsigned int getIndices() const;
+	int getVertCount() const;
+	int getIndCount() const;
 };
 
 #endif

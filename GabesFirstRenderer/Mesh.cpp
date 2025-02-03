@@ -1,7 +1,8 @@
 #include "Mesh.h"
 #include "glad/glad.h"
 
-Mesh::Mesh(float* vertices, int byteCount) {
+Mesh::Mesh(float* vertices, int byteCount, Shader* shader) {
+	this->shader = shader;
 	_vertCount = byteCount / (3 * sizeof(float)); // Assuming 3 floats per vertex
 
 	glGenVertexArrays(1, &_vertices);
@@ -25,9 +26,9 @@ Mesh::Mesh(float* vertices, int byteCount) {
 	glBindVertexArray(0);
 }
 
-Mesh::Mesh(float* vertices, int vByteCount, unsigned int* indices, int iByteCount): Mesh(vertices, vByteCount) {
+Mesh::Mesh(float* vertices, int vByteCount, unsigned int* indices, int iByteCount, Shader* shader): Mesh(vertices, vByteCount, shader) {
 	_indCount = iByteCount / sizeof(unsigned int); // Number of indices
-	
+
 	glBindVertexArray(_vertices);
 	glGenBuffers(1, &_indices);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indices);
@@ -35,15 +36,20 @@ Mesh::Mesh(float* vertices, int vByteCount, unsigned int* indices, int iByteCoun
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw() {
-	glBindVertexArray(_vertices);
-	if (_indCount > 0) {
-		glDrawElements(GL_TRIANGLES, _indCount, GL_UNSIGNED_INT, 0);
-	}
-	else {
-		glDrawArrays(GL_TRIANGLES, 0, _vertCount);
-	}
-	glBindVertexArray(0);
+int Mesh::getIndCount() const {
+	return _indCount;
+}
+
+unsigned int Mesh::getIndices() const {
+	return _indices;
+}
+
+int Mesh::getVertCount() const {
+	return _vertCount;
+}
+
+unsigned int Mesh::getVertices() const {
+	return _vertices;
 }
 
 Mesh::~Mesh() {
