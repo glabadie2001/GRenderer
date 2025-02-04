@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 #include <random>
+#include <iostream>
+using namespace std;
 
 template <typename T>
 int sgn(T val) {
@@ -10,7 +12,5 @@ int sgn(T val) {
 inline float random_float(float min, float max) {
 	return min + (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) * (max - min);
 }
-
-
 
 #endif

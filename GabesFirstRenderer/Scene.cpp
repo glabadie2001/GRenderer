@@ -19,10 +19,10 @@ std::vector<ParticleSystem*> Scene::getParticleSystems() const {
 	return _particleSystems;
 }
 
-void Scene::update() {
+void Scene::update(float deltaTime) {
 	int i;
 	for (i = 0; i < _particleSystems.size(); i++) {
-		_particleSystems[i]->simulate();
+		_particleSystems[i]->simulate(deltaTime);
 	}
 }
 

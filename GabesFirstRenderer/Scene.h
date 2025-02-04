@@ -13,7 +13,7 @@ class Scene {
 public:
 	void add(Mesh* mesh);
 	void add(ParticleSystem* ps);
-	void update();
+	void update(float deltaTime);
 
 	std::vector<Mesh*> getMeshes() const;
 	std::vector<ParticleSystem*> getParticleSystems() const;

@@ -124,6 +124,6 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type, int durat
     }
 
     if (duration >= 0) {
-        std::cout << "Took " << duration << "ms\n" << std::endl;
+        std::cout << "Took " << duration << "ms" << std::endl;
     }
 }

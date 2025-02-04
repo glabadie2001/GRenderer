@@ -7,27 +7,32 @@
       "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\ParticleSystem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\PROGRAM FILES\\MICROSOFT VISUAL STUDIO\\2022\\COMMUNITY\\VC\\TOOLS\\MSVC\\14.41.34120\\INCLUDE\\XUTILITY||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleSystem.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\ParticleSystem.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHash.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\SpatialHash.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHashMap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\SpatialHashMap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHash.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\SpatialHash.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHashMap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\SpatialHashMap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleVertShader.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\ParticleVertShader.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\Renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\FragmentShader.glsl||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\FragmentShader.glsl||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -41,27 +46,26 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\main.cpp",
               "RelativeDocumentMoniker": "GabesFirstRenderer\\main.cpp",
               "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\main.cpp",
               "RelativeToolTip": "GabesFirstRenderer\\main.cpp",
-              "ViewState": "AgIAABwAAAAAAAAAAAAAAGEAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAGMAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-02T07:29:51.432Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "ParticleSystem.h",
               "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleSystem.h",
               "RelativeDocumentMoniker": "GabesFirstRenderer\\ParticleSystem.h",
               "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleSystem.h",
               "RelativeToolTip": "GabesFirstRenderer\\ParticleSystem.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAwBgAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-02-03T04:11:55.7Z",
               "IsPinned": true,
@@ -75,7 +79,7 @@
               "RelativeDocumentMoniker": "GabesFirstRenderer\\ParticleSystem.cpp",
               "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleSystem.cpp",
               "RelativeToolTip": "GabesFirstRenderer\\ParticleSystem.cpp",
-              "ViewState": "AgIAAJgAAAAAAAAAAADgv8IAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAAwHoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-02T23:28:47.002Z",
               "IsPinned": true,
@@ -83,55 +87,66 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "xutility",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\xutility",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\xutility",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\xutility",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\xutility",
-              "ViewState": "AgIAAOMFAAAAAAAAAAAiwPIFAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-02-03T06:57:15.46Z",
+              "DocumentIndex": 2,
+              "Title": "SpatialHashMap.h",
+              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHashMap.h",
+              "RelativeDocumentMoniker": "GabesFirstRenderer\\SpatialHashMap.h",
+              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHashMap.h",
+              "RelativeToolTip": "GabesFirstRenderer\\SpatialHashMap.h",
+              "ViewState": "AgIAACUAAAAAAAAAAAAAwEcAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-04T01:47:07.881Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "SpatialHash.cpp",
-              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHash.cpp",
-              "RelativeDocumentMoniker": "GabesFirstRenderer\\SpatialHash.cpp",
-              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHash.cpp",
-              "RelativeToolTip": "GabesFirstRenderer\\SpatialHash.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Title": "SpatialHashMap.cpp",
+              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHashMap.cpp",
+              "RelativeDocumentMoniker": "GabesFirstRenderer\\SpatialHashMap.cpp",
+              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHashMap.cpp",
+              "RelativeToolTip": "GabesFirstRenderer\\SpatialHashMap.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-03T06:45:40.253Z",
+              "WhenOpened": "2025-02-03T20:02:17.671Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "SpatialHash.h",
-              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHash.h",
-              "RelativeDocumentMoniker": "GabesFirstRenderer\\SpatialHash.h",
-              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\SpatialHash.h",
-              "RelativeToolTip": "GabesFirstRenderer\\SpatialHash.h",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACIAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-02-03T06:43:41.176Z",
+              "Title": "ParticleVertShader.glsl",
+              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleVertShader.glsl",
+              "RelativeDocumentMoniker": "GabesFirstRenderer\\ParticleVertShader.glsl",
+              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleVertShader.glsl",
+              "RelativeToolTip": "GabesFirstRenderer\\ParticleVertShader.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-02-03T22:55:22.593Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Renderer.cpp",
               "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Renderer.cpp",
               "RelativeDocumentMoniker": "GabesFirstRenderer\\Renderer.cpp",
               "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Renderer.cpp",
               "RelativeToolTip": "GabesFirstRenderer\\Renderer.cpp",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAiwCIAAABDAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAACUAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-03T04:19:00.095Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-03T22:53:07.333Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FragmentShader.glsl",
+              "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\FragmentShader.glsl",
+              "RelativeDocumentMoniker": "GabesFirstRenderer\\FragmentShader.glsl",
+              "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\FragmentShader.glsl",
+              "RelativeToolTip": "GabesFirstRenderer\\FragmentShader.glsl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-02-04T04:54:43.159Z"
             }
           ]
         }

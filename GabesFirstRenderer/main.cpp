@@ -15,6 +15,8 @@ Scene* scene;
 Shader* densityShader;
 Shader* particleShader;
 
+float prevTime, currTime, deltaTime;
+
 void processInput(GLFWwindow* window);
 void initGLAD(), initGeometry(), setupDefaultShader();
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -95,27 +97,19 @@ Scene* particleScene() {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	Scene* partScene = new Scene();
 	int i;
-	int pCount = 500;
+	int pCount = 1000;
 
 	partScene->add(new ParticleSystem(pCount, particleShader, 800, 600));
 
-	//float rectVerts[] = {
-	//	1.0f,  1.0f, 0.0f,  // top right
-	//	1.0f, -1.0f, 0.0f,  // bottom right
-	//-1.0f, -1.0f, 0.0f,  // bottom left
-	//-1.0f,  1.0f, 0.0f   // top left 
-	//};
-	//unsigned int rectIndices[] = {  // note that we start from 0!
-	//	0, 1, 3,   // first triangle
-	//	1, 2, 3    // second triangle
-	//};
-
-	//partScene->add(new Mesh(rectVerts, sizeof(rectVerts), rectIndices, sizeof(rectIndices), particleShader));
 
 	return partScene;
 }
 
 int main() {
+	float lastTime = glfwGetTime();
+	int nbFrames = 0;
+	currTime = 0;
+
 	/*
 	 * Initialization
 	 */
@@ -143,9 +137,21 @@ int main() {
 	 */
 	while (!glfwWindowShouldClose(window))
 	{
+		// Measure speed
+		prevTime = currTime;
+		currTime = glfwGetTime();
+		deltaTime = currTime - prevTime;
+		nbFrames++;
+		if (currTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago
+			// printf and reset timer
+			printf("%f ms/frame\n", 1000.0 / double(nbFrames));
+			nbFrames = 0;
+			lastTime += 1.0;
+		}
+
 		processInput(window);
 
-		scene->update();
+		scene->update(deltaTime);
 		renderer.renderLoop(*scene);
 
 		glfwSwapBuffers(window);

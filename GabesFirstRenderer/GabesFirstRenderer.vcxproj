@@ -139,10 +139,11 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="SpatialHash.cpp" />
+    <ClCompile Include="SpatialHashMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SpatialHash.h" />
+    <ClInclude Include="SpatialHashMap.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ParticleSystem.h" />

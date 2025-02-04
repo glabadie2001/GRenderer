@@ -1,8 +1,7 @@
 ﻿  ParticleSystem.cpp
 C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(9,15): warning C4244: 'initializing': conversion from 'long double' to 'float', possible loss of data
-C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(30,23): warning C4018: '<': signed/unsigned mismatch
-  SpatialHash.cpp
-  Generating Code...
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(15,15): warning C4244: 'initializing': conversion from 'long double' to 'float', possible loss of data
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(77,9): warning C4101: 'j': unreferenced local variable
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(126,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(127,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   GabesFirstRenderer.vcxproj -> C:\Users\glaba\Documents\GitHub\GRenderer\x64\Debug\GabesFirstRenderer.exe

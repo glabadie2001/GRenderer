@@ -48,7 +48,7 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="SpatialHash.cpp">
+    <ClCompile Include="SpatialHashMap.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpatialHash.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="SpatialHashMap.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
