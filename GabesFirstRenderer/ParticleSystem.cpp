@@ -1,8 +1,9 @@
 #include "ParticleSystem.h"
 #include "glm/vec2.hpp"
-#include "utils.h";
+#include "utils.h"
 #include "SpatialHashMap.h"
 
+const extern float PI = 3.14159265358979323846f;
 const extern float Poly6ScalingFactor = 1.0f;
 const extern float SpikyPow3ScalingFactor = 1.0f;
 const extern float SpikyPow2ScalingFactor = 1.0f;
@@ -12,14 +13,14 @@ const extern float SpikyPow2DerivativeScalingFactor = 1.0f;
 static float smoothing(float dst, float radius) {
 	if (dst >= radius) return 0;
 
-	float volume = (std::_Pi_val * std::powf(radius, 4)) / 6;
+	float volume = (PI * std::powf(radius, 4)) / 6;
 	return (radius - dst) * (radius - dst) / volume;
 }
 
 static float smoothingDeriv(float dst, float radius) {
 	if (dst >= radius) return 0;
 
-	float scale = 12.0f / (std::powf(radius, 4.0f) * (float)std::_Pi_val);
+	float scale = 12.0f / (std::powf(radius, 4.0f) * PI);
 	return (dst - radius) * scale;
 }
 
@@ -74,7 +75,7 @@ static float DensityDerivative(float dst, float radius)
 }
 
 void ParticleSystem::foreachPointInRadius(int targetIndex, const std::function<void(ParticleSystem*, int, float)>& pred) {
-	int i, j;
+	int i;
 	glm::vec2 center = SpatialHashMap::positionToCellCoord(predictedPositions[targetIndex], _smoothingRadius);
 	float sqrRadius = _smoothingRadius * _smoothingRadius;
 
@@ -119,12 +120,12 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 	srand(0);
 	
 	int i = 0;
-	glm::vec2 spacing = glm::vec2(500, 500);
+	/*glm::vec2 spacing = glm::vec2(500, 500);
 
 	glm::vec2 spawnCenter = glm::vec2(_screenWidth / 2, _screenHeight / 2);
 
-	int numX = std::ceil(std::sqrt(spacing.x / spacing.y * _particleCount + (spacing.x - spacing.y) * (spacing.x - spacing.y) / (4 * spacing.y * spacing.y)) - (spacing.x - spacing.y) / (2 * spacing.y));
-	int numY = std::ceil(_particleCount / (float)numX);
+	int numX = (int)std::ceil(std::sqrt(spacing.x / spacing.y * _particleCount + (spacing.x - spacing.y) * (spacing.x - spacing.y) / (4 * spacing.y * spacing.y)) - (spacing.x - spacing.y) / (2 * spacing.y));
+	int numY = (int)std::ceil(_particleCount / (float)numX);
 
 	for (int y = 0; y < numY; y++)
 	{
@@ -144,11 +145,11 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 
 			i++;
 		}
-	}
+	}*/
 
 	for (i = 0; i < _particleCount; i++) {
 		//Random initialization
-		//positions[i] = glm::vec2(random_float(0.0, _screenWidth), random_float(0.0f, _screenHeight));
+		positions[i] = glm::vec2(random_float(0.0, _screenWidth), random_float(0.0f, _screenHeight));
 		predictedPositions[i] = glm::vec2(positions[i]);
 		velocities[i] = glm::vec2(0.0f, 0.0f);
 	}

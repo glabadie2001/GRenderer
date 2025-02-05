@@ -96,7 +96,6 @@ Scene* testScene() {
 Scene* particleScene() {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	Scene* partScene = new Scene();
-	int i;
 	int pCount = 1000;
 
 	partScene->add(new ParticleSystem(pCount, particleShader, 800, 600));
@@ -106,7 +105,7 @@ Scene* particleScene() {
 }
 
 int main() {
-	float lastTime = glfwGetTime();
+	float lastTime = (float)glfwGetTime();
 	int nbFrames = 0;
 	currTime = 0;
 
@@ -114,7 +113,7 @@ int main() {
 	 * Initialization
 	 */
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
@@ -125,13 +124,17 @@ int main() {
 	glViewport(0, 0, 800, 600);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+	std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+	std::cout << "OpenGL Driver Vendor: " << glGetString(GL_VENDOR) << std::endl;
+	std::cout << "OpenGL Renderer: " << glGetString(GL_RENDERER) << std::endl;
+
 	/*
 	 * Rendering prep
 	 */
 	setupDefaultShader();
 
 	initGeometry();
-
 	/*
 	 * Render Loop!
 	 */

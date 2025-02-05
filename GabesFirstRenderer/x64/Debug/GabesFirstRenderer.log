@@ -1,7 +1,3 @@
-﻿  ParticleSystem.cpp
-C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(15,15): warning C4244: 'initializing': conversion from 'long double' to 'float', possible loss of data
-C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(77,9): warning C4101: 'j': unreferenced local variable
-C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(126,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\ParticleSystem.cpp(127,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+﻿  main.cpp
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(145,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   GabesFirstRenderer.vcxproj -> C:\Users\glaba\Documents\GitHub\GRenderer\x64\Debug\GabesFirstRenderer.exe

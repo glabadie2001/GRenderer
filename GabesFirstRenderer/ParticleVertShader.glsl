@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 layout (location = 0) in vec2 aPos; // Changed from vec3 to vec2
 layout (location = 1) in float aDen;
 layout (location = 2) in float aCell;

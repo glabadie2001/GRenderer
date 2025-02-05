@@ -27,8 +27,10 @@ SpatialHash** SpatialHashMap::getMap() const {
 }
 
 float* SpatialHashMap::getCells() const {
-    int i, j;
-    /*glm::vec2 root = glm::vec2(10, 10);
+    int i;
+    /*
+    int j;
+    glm::vec2 root = glm::vec2(10, 10);
     int* captures = new int[10];
     captures[0] = SpatialHashMap::hashCell(root);
 
