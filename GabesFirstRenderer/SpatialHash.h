@@ -1,10 +1,11 @@
 #ifndef SPATIALHASH_H
 #define SPATIALHASH_H
+#include "glm/glm.hpp"
 
 struct SpatialHash {
 
 public:
-	int _index, _hash, _cellKey;
+	unsigned _index, _hash, _cellKey;
 
 	SpatialHash() {
 		_index = 0;
@@ -12,7 +13,7 @@ public:
 		_hash = 0;
 	}
 
-	SpatialHash(int index, int hash, int cellKey) {
+	SpatialHash(unsigned index, unsigned hash, unsigned cellKey) {
 		_index = index;
 		_cellKey = cellKey;
 		_hash = hash;

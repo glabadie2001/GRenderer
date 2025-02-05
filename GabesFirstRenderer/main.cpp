@@ -60,7 +60,7 @@ GLFWwindow* create_window(int width, int height) {
 
 void setupDefaultShader() {
 	//densityShader = new Shader("ParticleVertShader.glsl", "DensityFragment.glsl");
-	particleShader = new Shader("ParticleVertShader.glsl", "FragmentShader.glsl");
+	particleShader = new Shader("ParticleVertShader.vert", "FragmentShader.frag");
 }
 
 void initGeometry() {
@@ -96,9 +96,9 @@ Scene* testScene() {
 Scene* particleScene() {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	Scene* partScene = new Scene();
-	int pCount = 1000;
+	int pCount = 5000;
 
-	partScene->add(new ParticleSystem(pCount, particleShader, 800, 600));
+	partScene->add(new ParticleSystem(pCount, particleShader, 1600, 1200));
 
 
 	return partScene;
@@ -117,11 +117,11 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow* window = create_window(800, 600);
+	GLFWwindow* window = create_window(1600, 1200);
 
 	initGLAD();
 
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, 1600, 1200);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
@@ -142,7 +142,7 @@ int main() {
 	{
 		// Measure speed
 		prevTime = currTime;
-		currTime = glfwGetTime();
+		currTime = (float)glfwGetTime();
 		deltaTime = currTime - prevTime;
 		nbFrames++;
 		if (currTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago

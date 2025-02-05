@@ -1,6 +1,6 @@
 #include "Scene.h"
 #include "glad/glad.h"
-#include "iostream";
+#include "iostream"
 #include <vector>
 
 void Scene::add(Mesh* mesh) {

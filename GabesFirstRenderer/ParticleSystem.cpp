@@ -2,27 +2,12 @@
 #include "glm/vec2.hpp"
 #include "utils.h"
 #include "SpatialHashMap.h"
+#include "ComputeShader.h"
+#include <chrono>
 
-const extern float PI = 3.14159265358979323846f;
 const extern float Poly6ScalingFactor = 1.0f;
-const extern float SpikyPow3ScalingFactor = 1.0f;
-const extern float SpikyPow2ScalingFactor = 1.0f;
 const extern float SpikyPow3DerivativeScalingFactor = 1.0f;
 const extern float SpikyPow2DerivativeScalingFactor = 1.0f;
-
-static float smoothing(float dst, float radius) {
-	if (dst >= radius) return 0;
-
-	float volume = (PI * std::powf(radius, 4)) / 6;
-	return (radius - dst) * (radius - dst) / volume;
-}
-
-static float smoothingDeriv(float dst, float radius) {
-	if (dst >= radius) return 0;
-
-	float scale = 12.0f / (std::powf(radius, 4.0f) * PI);
-	return (dst - radius) * scale;
-}
 
 static float ViscosityKernel(float dst, float radius)
 {
@@ -30,26 +15,6 @@ static float ViscosityKernel(float dst, float radius)
 	{
 		float v = radius * radius - dst * dst;
 		return v * v * v * Poly6ScalingFactor;
-	}
-	return 0;
-}
-
-static float NearDensityKernel(float dst, float radius)
-{
-	if (dst < radius)
-	{
-		float v = radius - dst;
-		return v * v * v * SpikyPow3ScalingFactor;
-	}
-	return 0;
-}
-
-static float DensityKernel(float dst, float radius)
-{
-	if (dst < radius)
-	{
-		float v = radius - dst;
-		return v * v * SpikyPow2ScalingFactor;
 	}
 	return 0;
 }
@@ -85,12 +50,12 @@ void ParticleSystem::foreachPointInRadius(int targetIndex, const std::function<v
 		unsigned cellStartIndex = _spatialHash->getStartIndex(key);
 
 		for (int neighborIndex = cellStartIndex; neighborIndex < count(); neighborIndex++) {
-			SpatialHash* entry = _spatialHash->get(neighborIndex);
-			if (entry->_cellKey != key) break;
-			if (entry->_hash != hash) continue;
+			glm::uvec4 entry = _spatialHash->get(neighborIndex);
+			if (entry[2] != key) break;
+			if (entry[1] != hash) continue;
 			//if (entry->_index == targetIndex) continue;
 
-			int particleIndex = _spatialHash->get(neighborIndex)->_index;
+			int particleIndex = _spatialHash->get(neighborIndex)[0];
 			glm::vec2 diff = (predictedPositions[particleIndex] - predictedPositions[targetIndex]);
 			float sqrDst = (diff.x * diff.x) + (diff.y * diff.y);
 
@@ -117,10 +82,13 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 	densities = new float[_particleCount];
 	nearDensities = new float[_particleCount];
 	
+	densityCompute = new ComputeShader("DensityKernel.comp");
+	pressureCompute = new ComputeShader("PressureKernel.comp");
+
 	srand(0);
 	
 	int i = 0;
-	/*glm::vec2 spacing = glm::vec2(500, 500);
+	glm::vec2 spacing = glm::vec2(1000, 1000);
 
 	glm::vec2 spawnCenter = glm::vec2(_screenWidth / 2, _screenHeight / 2);
 
@@ -145,11 +113,11 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 
 			i++;
 		}
-	}*/
+	}
 
 	for (i = 0; i < _particleCount; i++) {
 		//Random initialization
-		positions[i] = glm::vec2(random_float(0.0, _screenWidth), random_float(0.0f, _screenHeight));
+		//positions[i] = glm::vec2(random_float(0.0, _screenWidth), random_float(0.0f, _screenHeight));
 		predictedPositions[i] = glm::vec2(positions[i]);
 		velocities[i] = glm::vec2(0.0f, 0.0f);
 	}
@@ -227,8 +195,8 @@ float ParticleSystem::density(int particleIndex) {
 
 	foreachPointInRadius(particleIndex, [&density, &nearDensity, &particleIndex](ParticleSystem* ps, int neighborIndex, float sqrDst) {
 		float dst = std::sqrt(sqrDst);
-		density += DensityKernel(dst, ps->_smoothingRadius);
-		nearDensity += NearDensityKernel(dst, ps->_smoothingRadius);
+		density += ps->DensityKernel(dst, ps->_smoothingRadius);
+		nearDensity += ps->NearDensityKernel(dst, ps->_smoothingRadius);
 	});
 
 	return density;
@@ -273,9 +241,14 @@ float ParticleSystem::nearDensityToPressure(float nearDensity) const {
 	return _nearPressureMultiplier * nearDensity;
 }
 
+size_t align(size_t offset, size_t alignment) {
+	return (offset + alignment - 1) & ~(alignment - 1);
+}
+
 void ParticleSystem::simulate(float deltaTime) {
 	int i;
 
+	auto start = std::chrono::high_resolution_clock::now();
 	//External Forces Kernel
 	for (i = 0; i < count(); i++) {
 		velocities[i] += externalForces(i) * deltaTime;
@@ -284,7 +257,11 @@ void ParticleSystem::simulate(float deltaTime) {
 		//cout << velocities[i].x << ", " << velocities[i].y << endl;
 		predictedPositions[i] = positions[i] + velocities[i] * predictionFactor;
 	}
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::cout << "External Forces: " << duration.count() << "ms" << std::endl;
 
+	start = std::chrono::high_resolution_clock::now();
 	//Spatial Hash Kernel
 	for (i = 0; i < count(); i++) {
 		//Reset offset to out-of-bounds value
@@ -293,52 +270,127 @@ void ParticleSystem::simulate(float deltaTime) {
 		unsigned hash = _spatialHash->hashCell(cell);
 		unsigned key = _spatialHash->keyFromHash(hash, count());
 		
-		if (_spatialHash->_spatialIndices[i] == nullptr) {
-			_spatialHash->_spatialIndices[i] = new SpatialHash(i, hash, key);
-		}
-		else {
-			_spatialHash->_spatialIndices[i]->_index = i;
-			_spatialHash->_spatialIndices[i]->_hash = hash;
-			_spatialHash->_spatialIndices[i]->_cellKey = key;
-		}
+		_spatialHash->_spatialIndices[i][0] = i;
+		_spatialHash->_spatialIndices[i][1] = hash;
+		_spatialHash->_spatialIndices[i][2] = key;
 	}
+	end = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::cout << "Hashing: " << duration.count() << "ms" << std::endl;
 
+	start = std::chrono::high_resolution_clock::now();
 	//Sort
 	_spatialHash->sort();
+	end = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::cout << "Sorting: " << duration.count() << "ms" << std::endl;
 	
+	start = std::chrono::high_resolution_clock::now();
 	//Set Offsets
 	//Iterate through sorted spatialIndices and wait for cellKey changes to mark boundaries.
 	for (i = 0; i < count(); i++) {
-		int key = _spatialHash->_spatialIndices[i]->_cellKey;
-		int keyPrev = (i == 0) ? count() : _spatialHash->_spatialIndices[i - 1]->_cellKey;
+		int key = _spatialHash->_spatialIndices[i][2];
+		int keyPrev = (i == 0) ? count() : _spatialHash->_spatialIndices[i - 1][2];
 
 		//Update offset position when change found
 		if (key != keyPrev)
 			_spatialHash->_spatialOffsets[key] = i;
 	}
+	end = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::cout << "Offsets: " << duration.count() << "ms" << std::endl;
 
+	start = std::chrono::high_resolution_clock::now();
 	//Density Kernel
-	for (i = 0; i < count(); i++) {
-		densities[i] = density(i);
-	}
-	
-	//Pressure Kernel
-	for (i = 0; i < count(); i++) {
-		glm::vec2* pressureForce = pressure(i);
-		// F = ma, a = F/m
-		glm::vec2 acc = *pressureForce / densities[i];
+	densityCompute->use();
+	size_t densityOffset = 0;  // aligned to 4
+	size_t offsetsOffset = align(densityOffset + count() * sizeof(float), 4);
+	size_t indicesOffset = align(offsetsOffset + count() * sizeof(unsigned), 16);  // Note 16-byte alignment
+	size_t positionsOffset = align(indicesOffset + count() * sizeof(glm::uvec4), 8);
 
-		delete pressureForce;
-		velocities[i] += acc * deltaTime;
-	}
+	// Total buffer size needs to account for final array
+	size_t totalSize = align(positionsOffset + count() * sizeof(glm::vec2), 16);
+
+	densityCompute->allocate(totalSize);
+
+	densityCompute->write(densities, count() * sizeof(float), densityOffset);
+	densityCompute->write(_spatialHash->_spatialOffsets, count() * sizeof(unsigned), offsetsOffset);
+	densityCompute->write(_spatialHash->_spatialIndices, count() * sizeof(glm::uvec4), indicesOffset);
+	densityCompute->write(predictedPositions, count() * sizeof(glm::vec2), positionsOffset);
+
+	glUniform1f(glGetUniformLocation(densityCompute->ID, "SpikyPow2ScalingFactor"), SpikyPow2ScalingFactor);
+	glUniform1f(glGetUniformLocation(densityCompute->ID, "SpikyPow3ScalingFactor"), SpikyPow3ScalingFactor);
+	glUniform1f(glGetUniformLocation(densityCompute->ID, "smoothingRadius"), _smoothingRadius); //50.0f
+	glUniform1ui(glGetUniformLocation(densityCompute->ID, "numParticles"), count()); //1000
+	glDispatchCompute(count(), 1, 1);
+
+	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+
+	densities = (float*)densityCompute->read(count() * sizeof(float), sizeof(float));
+	nearDensities = (float*)densityCompute->read(count() * sizeof(float), sizeof(float), count() * sizeof(float));
+	end = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::cout << "Density: " << duration.count() << "ms" << std::endl;
+	
+	start = std::chrono::high_resolution_clock::now();
+
+	//Pressure Kernel
+	pressureCompute->use();
+
+	// Calculate offsets with proper alignment
+	densityOffset = 0;  // Densities start at 0
+	size_t nearDensitiesOffset = align(densityOffset + count() * sizeof(float), 4);  // Align to 4 bytes
+	offsetsOffset = align(nearDensitiesOffset + count() * sizeof(float), 4);    // Align to 4 bytes
+	indicesOffset = align(offsetsOffset + count() * sizeof(unsigned), 16);      // Align to 16 bytes
+	positionsOffset = align(indicesOffset + count() * sizeof(glm::uvec4), 8);   // Align to 8 bytes
+	size_t velocitiesOffset = align(positionsOffset + count() * sizeof(glm::vec2), 16); // Align to 16 bytes
+
+	// Total buffer size
+	totalSize = velocitiesOffset + count() * sizeof(glm::vec2);
+
+	// Allocate the buffer
+	pressureCompute->allocate(totalSize);
+
+	// Write data to the buffer
+	pressureCompute->write(densities, count() * sizeof(float), densityOffset);
+	pressureCompute->write(nearDensities, count() * sizeof(float), nearDensitiesOffset);
+	pressureCompute->write(_spatialHash->_spatialOffsets, count() * sizeof(unsigned), offsetsOffset);
+	pressureCompute->write(_spatialHash->_spatialIndices, count() * sizeof(glm::uvec4), indicesOffset);
+	pressureCompute->write(predictedPositions, count() * sizeof(glm::vec2), positionsOffset);
+	pressureCompute->write(velocities, count() * sizeof(glm::vec2), velocitiesOffset);
+
+	glUniform1f(glGetUniformLocation(pressureCompute->ID, "deltaTime"), deltaTime);
+	glUniform1f(glGetUniformLocation(pressureCompute->ID, "nearPressureMultiplier"), _nearPressureMultiplier);
+	glUniform1f(glGetUniformLocation(pressureCompute->ID, "pressureMultiplier"), _pressureMultiplier);
+	glUniform1f(glGetUniformLocation(pressureCompute->ID, "targetDensity"), _targetDensity);
+
+	glUniform1f(glGetUniformLocation(pressureCompute->ID, "SpikyPow2DerivativeScalingFactor"), SpikyPow2DerivativeScalingFactor);
+	glUniform1f(glGetUniformLocation(pressureCompute->ID, "SpikyPow3DerivativeScalingFactor"), SpikyPow3DerivativeScalingFactor);
+	glUniform1f(glGetUniformLocation(pressureCompute->ID, "smoothingRadius"), _smoothingRadius);
+	glUniform1ui(glGetUniformLocation(pressureCompute->ID, "numParticles"), count());
+	glDispatchCompute(count(), 1, 1);
+
+	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+
+	delete[] velocities;
+	velocities = (glm::vec2*)pressureCompute->read(count() * sizeof(glm::vec2), sizeof(glm::vec2));
+	end = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	end = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::cout << "Pressure: " << duration.count() << "ms" << std::endl;
 
 	//Viscosity Kernel
 
+	start = std::chrono::high_resolution_clock::now();
 	//Update Positions
 	for (i = 0; i < count(); i++) {
 		positions[i] +=	velocities[i] * (float)deltaTime;
 		resolveCollisions(&(positions[i]), &(velocities[i]));
 	}
+	end = std::chrono::high_resolution_clock::now();
+	duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::cout << "Positions: " << duration.count() << "ms" << std::endl;
 
 	//_spatialHash->updateMap(predictedPositions, count(), _smoothingRadius);
 
@@ -350,31 +402,6 @@ void ParticleSystem::simulate(float deltaTime) {
 	glBindBuffer(GL_ARRAY_BUFFER, _velBuffer);
 	glBufferData(GL_ARRAY_BUFFER, _particleCount * sizeof(glm::vec2), velocities, GL_DYNAMIC_DRAW);
 
-}
-
-glm::vec2 ParticleSystem::calcPressureInfluence(int currIndex, int neighborIndex) {
-	glm::vec2 offset = (positions[neighborIndex] - positions[currIndex]);
-	float dst = std::sqrtf((offset.x * offset.x) + (offset.y * offset.y));
-
-	glm::vec2 dir = (dst == 0) ? offset / 0.1f : offset / dst;
-	float slope = smoothingDeriv(dst, _smoothingRadius);
-
-	float density = densities[currIndex];
-	float sharedPressure = (densityToPressure(density) + densityToPressure(densities[neighborIndex])) / 2;
-	float mass = 1.0f;
-
-	glm::vec2 addend = dir * sharedPressure * slope * mass / density;
-
-	return addend;
-}
-
-
-float ParticleSystem::calcDensityInfluence(int index, int neighborIndex) {
-	glm::vec2 diff = (positions[index] - positions[neighborIndex]);
-	float dst = std::sqrtf(diff.x * diff.x + diff.y * diff.y);
-	float influence = smoothing(_smoothingRadius, dst);
-	//TODO: Mass?
-	return influence;
 }
 
 void ParticleSystem::updateDensities() {
@@ -415,5 +442,6 @@ ParticleSystem::~ParticleSystem() {
 	delete[] densities;
 	delete gravity;
 	delete shader;
+	delete densityCompute;
 	glDeleteBuffers(1, &_vertexBuffer);
 }

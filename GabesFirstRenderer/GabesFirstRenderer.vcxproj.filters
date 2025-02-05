@@ -25,6 +25,15 @@
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{9582689d-25df-46d1-a8b3-f6668d5a4dd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Vertex">
+      <UniqueIdentifier>{b02ea6cb-b506-4e1a-9e8e-c022e1a0a7c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Fragment">
+      <UniqueIdentifier>{4c7353dd-18ea-4e69-843a-5c244f915f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Compute">
+      <UniqueIdentifier>{2d581794-8c30-4a34-9604-6de6108a6bc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -49,6 +58,9 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="SpatialHashMap.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputeShader.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,19 +89,26 @@
     <ClInclude Include="SpatialHashMap.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="ComputeShader.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="VertexShader.glsl">
-      <Filter>Resource Files</Filter>
+    <None Include="ParticleVertShader.vert">
+      <Filter>Resource Files\Vertex</Filter>
     </None>
-    <None Include="FragmentShader.glsl">
-      <Filter>Resource Files</Filter>
+    <None Include="VertexShader.vert">
+      <Filter>Resource Files\Vertex</Filter>
     </None>
-    <None Include="ParticleVertShader.glsl">
-      <Filter>Resource Files</Filter>
+    <None Include="DensityFragment.frag">
+      <Filter>Resource Files\Fragment</Filter>
     </None>
-    <None Include="DensityFragment.glsl">
-      <Filter>Resource Files</Filter>
+    <None Include="FragmentShader.frag">
+      <Filter>Resource Files\Fragment</Filter>
     </None>
+    <None Include="DensityKernel.comp">
+      <Filter>Resource Files\Compute</Filter>
+    </None>
+    <None Include="PressureKernel.comp" />
   </ItemGroup>
 </Project>

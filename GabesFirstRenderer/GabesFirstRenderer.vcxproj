@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ComputeShader.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="SpatialHashMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ComputeShader.h" />
     <ClInclude Include="SpatialHash.h" />
     <ClInclude Include="SpatialHashMap.h" />
     <ClInclude Include="utils.h" />
@@ -152,10 +154,12 @@
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DensityFragment.glsl" />
-    <None Include="FragmentShader.glsl" />
-    <None Include="ParticleVertShader.glsl" />
-    <None Include="VertexShader.glsl" />
+    <None Include="DensityFragment.frag" />
+    <None Include="FragmentShader.frag" />
+    <None Include="ParticleVertShader.vert" />
+    <None Include="PressureKernel.comp" />
+    <None Include="VertexShader.vert" />
+    <None Include="DensityKernel.comp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

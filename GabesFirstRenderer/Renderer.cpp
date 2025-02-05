@@ -35,7 +35,7 @@ void Renderer::drawMesh(const Mesh& mesh) const {
 void Renderer::drawParticleSystem(const ParticleSystem& ps) const {
 	ps.shader->use();
 
-	ps.shader->setVec2("screenSize", glm::vec2(800, 600));
+	ps.shader->setVec2("screenSize", glm::vec2(1600, 1200));
 
 	glBindVertexArray(ps.getVertices());
 

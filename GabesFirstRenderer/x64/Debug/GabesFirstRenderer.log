@@ -1,3 +1,6 @@
-﻿  main.cpp
-C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(145,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿  ParticleSystem.cpp
+  Renderer.cpp
+  Scene.cpp
+  main.cpp
+  Generating Code...
   GabesFirstRenderer.vcxproj -> C:\Users\glaba\Documents\GitHub\GRenderer\x64\Debug\GabesFirstRenderer.exe
