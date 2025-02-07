@@ -5,6 +5,7 @@ layout (location = 2) in float aCell;
 layout (location = 3) in vec2 aVel;
 
 uniform vec2 screenSize;
+uniform float targetDensity;
 
 out vec4 vertexColor;
 out float density;
@@ -18,8 +19,9 @@ void main()
     gl_PointSize = 10.0;
     
     density = aDen;
-    vertexColor = vec4(0.0, 0.0, aCell/10000.0, 1.0);
-    //vertexColor = vec4(scaledPos, 0.0, 1.0);
+    //vertexColor = vec4(0.0, 0.0, aCell / 5000.0, 1.0);
+    vertexColor = vec4(0.0, aDen / targetDensity, 0.0, 1.0);
+    //vertexColor = vec4(aVel.x/800.0, aVel.y/600.0, 0, 1.0);
     //float spd = sqrt(aVel.x * aVel.x + aVel.y * aVel.y) / 1000.0;
     //vertexColor = vec4(spd, 0, 0, 1);
 }

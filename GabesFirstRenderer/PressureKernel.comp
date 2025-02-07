@@ -2,12 +2,12 @@
 layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 layout(std430, binding = 0) buffer input_layout
 {
+    vec2 Velocities[];
     float Densities[];
-	layout(offset = 20000) float NearDensities[];
-    layout(offset = 40000) uint SpatialOffsets[];  // Explicit offset
-    layout(offset = 60000) uvec4 SpatialIndices[];
-    layout(offset = 140000) vec2 PredictedPositions[];
-	layout(offset = 180000) vec2 Velocities[];
+    float NearDensities[];
+    uint SpatialOffsets[];
+    vec2 PredictedPositions[];
+    uvec4 SpatialIndices[];
 };
 layout(std430, binding = 1) buffer output_layout
 {
@@ -23,6 +23,37 @@ uniform uint numParticles;
 uniform float SpikyPow3DerivativeScalingFactor;
 uniform float SpikyPow2DerivativeScalingFactor;
 
+uint getAlignedSize(uint elementSize, uint alignment, uint count) {
+    return (elementSize * count + alignment - 1u) & ~(alignment - 1u);
+}
+
+// In main:
+// Velocities is first, so no offset needed
+// vec2 vel = Velocities[gl_GlobalInvocationID.x];
+
+// Densities starts after Velocities (vec2 array, 8-byte aligned)
+uint velocitiesAlignedSize = getAlignedSize(8u, 4u, numParticles);
+uint densitiesOffset = (velocitiesAlignedSize / 4u) - 2;  // Divide by 4 because float is 4 bytes
+
+// NearDensities starts after Densities (float array, 4-byte aligned)
+uint densitiesAlignedSize = getAlignedSize(4u, 4u, numParticles);
+uint nearDensitiesOffset = (velocitiesAlignedSize + densitiesAlignedSize) / 4u - 3;
+
+// SpatialOffsets starts after NearDensities (float array, 4-byte aligned)
+uint nearDensitiesAlignedSize = getAlignedSize(4u, 8u, numParticles);
+uint spatialOffsetsOffset = (velocitiesAlignedSize + densitiesAlignedSize + nearDensitiesAlignedSize) / 4u - 4;
+
+// PredictedPositions starts after SpatialOffsets (uint array, 4-byte aligned)
+uint spatialOffsetsAlignedSize = getAlignedSize(4u, 8u, numParticles);
+uint predictedPositionsOffset = (velocitiesAlignedSize + densitiesAlignedSize + 
+    nearDensitiesAlignedSize + spatialOffsetsAlignedSize) / 8u - 3;  // Divide by 8 for vec2
+
+// SpatialIndices starts after PredictedPositions (vec2 array, 8-byte aligned)
+uint predictedPositionsAlignedSize = getAlignedSize(8u, 16u, numParticles);
+uint spatialIndicesOffset = (velocitiesAlignedSize + densitiesAlignedSize + 
+    nearDensitiesAlignedSize + spatialOffsetsAlignedSize + 
+    predictedPositionsAlignedSize) / 16u - 2;  // Divide by 16 for uvec4
+
 const vec2 offsets2D[9] =
 {
 	vec2(-1, 1),
@@ -37,8 +68,8 @@ const vec2 offsets2D[9] =
 };
 
 // Constants used for hashing
-const uint hashK1 = 15823;
-const uint hashK2 = 9737333;
+const uint hashK1 = 15823;   // Large prime
+const uint hashK2 = 9737333;   // Large prime
 
 // Convert floating point position into an integer cell coordinate
 vec2 GetCell2D(vec2 position, float radius)
@@ -56,7 +87,7 @@ uint HashCell2D(vec2 cell)
 
 uint KeyFromHash(uint hash, uint tableSize)
 {
-	return hash % tableSize;
+    return hash % tableSize;
 }
 
 float NearDensityDerivative(float dst, float radius)
@@ -92,15 +123,16 @@ float NearPressureFromDensity(float nearDensity)
 
 vec2 CalculatePressure()
 {
-	if (gl_GlobalInvocationID.x >= numParticles) return vec2(0,0);
+    uint particleIndex = gl_GlobalInvocationID.x;
+	if (particleIndex >= numParticles) return vec2(0,0);
 
-	float density = Densities[gl_GlobalInvocationID.x];
-	float densityNear = NearDensities[gl_GlobalInvocationID.x];
+	float density = Densities[densitiesOffset + particleIndex];
+	float densityNear = NearDensities[nearDensitiesOffset + particleIndex];
 	float pressure = PressureFromDensity(density);
 	float nearPressure = NearPressureFromDensity(densityNear);
 	vec2 pressureForce = vec2(0,0);
 	
-	vec2 pos = PredictedPositions[gl_GlobalInvocationID.x];
+	vec2 pos = PredictedPositions[predictedPositionsOffset + particleIndex];
 	vec2 originCell = GetCell2D(pos, smoothingRadius);
 	float sqrRadius = smoothingRadius * smoothingRadius;
 
@@ -109,22 +141,22 @@ vec2 CalculatePressure()
 	{
 		uint hash = HashCell2D(originCell + offsets2D[i]);
 		uint key = KeyFromHash(hash, numParticles);
-		uint currIndex = SpatialOffsets[key];
+		uint currIndex = SpatialOffsets[spatialOffsetsOffset + key];
 
 		while (currIndex < numParticles)
 		{
-			uvec3 indexData = SpatialIndices[currIndex].xyz;
+			uvec3 indexData = SpatialIndices[spatialIndicesOffset + currIndex].xyz;
 			currIndex ++;
 			// Exit if no longer looking at correct bin
 			if (indexData.z != key) break;
 			// Skip if hash does not match
 			if (indexData.y != hash) continue;
 
-			uint neighbourIndex = indexData.x;
+			uint neighborIndex = indexData.x;
 			// Skip if looking at self
-			if (neighbourIndex == gl_GlobalInvocationID.x) continue;
+			if (neighborIndex == particleIndex) continue;
 
-			vec2 neighbourPos = PredictedPositions[neighbourIndex];
+			vec2 neighbourPos = PredictedPositions[predictedPositionsOffset + neighborIndex];
 			vec2 offsetToNeighbour = neighbourPos - pos;
 			float sqrDstToNeighbour = dot(offsetToNeighbour, offsetToNeighbour);
 
@@ -135,25 +167,29 @@ vec2 CalculatePressure()
 			float dst = sqrt(sqrDstToNeighbour);
 			vec2 dirToNeighbour = dst > 0 ? offsetToNeighbour / dst : vec2(0, 1);
 
-			float neighbourDensity = Densities[neighbourIndex];
-			float neighbourNearDensity = NearDensities[neighbourIndex];
+			float neighbourDensity = Densities[densitiesOffset + neighborIndex];
+			float neighbourNearDensity = NearDensities[nearDensitiesOffset + neighborIndex];
 			float neighbourPressure = PressureFromDensity(neighbourDensity);
 			float neighbourNearPressure = NearPressureFromDensity(neighbourNearDensity);
 
 			float sharedPressure = (pressure + neighbourPressure) * 0.5;
 			float sharedNearPressure = (nearPressure + neighbourNearPressure) * 0.5;
 
-			pressureForce += dirToNeighbour * DensityDerivative(dst, smoothingRadius) * sharedPressure / neighbourDensity;
-			pressureForce += dirToNeighbour * NearDensityDerivative(dst, smoothingRadius) * sharedNearPressure / neighbourNearDensity;
+			pressureForce += dirToNeighbour * DensityDerivative(dst, smoothingRadius) * sharedPressure / (neighbourDensity);
+			pressureForce += dirToNeighbour * NearDensityDerivative(dst, smoothingRadius) * sharedNearPressure / (neighbourNearDensity);
 		}
 	}
 
 	return pressureForce;
 }
 
-void main() {	
+void main() {
 	vec2 pressure = CalculatePressure();
-	//OutDensities[gl_GlobalInvocationID.x] = uint(SpatialOffsets[gl_GlobalInvocationID.x]);
-	OutVelocities[gl_GlobalInvocationID.x] = Velocities[gl_GlobalInvocationID.x] + (pressure / Densities[gl_GlobalInvocationID.x] * deltaTime);
-	//OutNearDensities[gl_GlobalInvocationID.x] = density.y;
+	OutVelocities[gl_GlobalInvocationID.x] = Velocities[gl_GlobalInvocationID.x] + (pressure / Densities[densitiesOffset + gl_GlobalInvocationID.x] * deltaTime);
+	
+	//Debug Helpers
+	//OutVelocities[gl_GlobalInvocationID.x] = vec2(SpatialOffsets[spatialOffsetsOffset + gl_GlobalInvocationID.x], Densities[densitiesOffset + gl_GlobalInvocationID.x]);
+	//OutVelocities[gl_GlobalInvocationID.x] = PredictedPositions[predictedPositionsOffset + gl_GlobalInvocationID.x];
+	//OutVelocities[gl_GlobalInvocationID.x] = pressure;
+	//OutVelocities[gl_GlobalInvocationID.x] = vec2(pressureMultiplier, nearPressureMultiplier);
 }

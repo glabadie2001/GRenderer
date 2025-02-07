@@ -44,11 +44,11 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
     fragment = compile(fShaderCode, GL_FRAGMENT_SHADER);
 
     // shader Program
-    ID = glCreateProgram();
-    glAttachShader(ID, vertex);
-    glAttachShader(ID, fragment);
-    glLinkProgram(ID);
-    checkCompileErrors(ID, "PROGRAM");
+    _ID = glCreateProgram();
+    glAttachShader(_ID, vertex);
+    glAttachShader(_ID, fragment);
+    glLinkProgram(_ID);
+    checkCompileErrors(_ID, "PROGRAM");
 
     // delete the shaders as they're linked into our program now and no longer necessary
     glDeleteShader(vertex);
@@ -73,29 +73,29 @@ unsigned int Shader::compile(const char* shaderCode, int type) {
 // ------------------------------------------------------------------------
 void Shader::use()
 {
-    glUseProgram(ID);
+    glUseProgram(_ID);
 }
 // utility uniform functions
 // ------------------------------------------------------------------------
 void Shader::setBool(const std::string& name, bool value) const
 {
-    glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+    glUniform1i(glGetUniformLocation(_ID, name.c_str()), (int)value);
 }
 // ------------------------------------------------------------------------
 void Shader::setInt(const std::string& name, int value) const
 {
-    glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+    glUniform1i(glGetUniformLocation(_ID, name.c_str()), value);
 }
 // ------------------------------------------------------------------------
 void Shader::setFloat(const std::string& name, float value) const
 {
-    glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+    glUniform1f(glGetUniformLocation(_ID, name.c_str()), value);
 }
 
 // ------------------------------------------------------------------------
 void Shader::setVec2(const std::string& name, glm::vec2 value) const
 {
-    glUniform2f(glGetUniformLocation(ID, name.c_str()), value.x, value.y);
+    glUniform2f(glGetUniformLocation(_ID, name.c_str()), value.x, value.y);
 }
 
 // utility function for checking shader compilation/linking errors.

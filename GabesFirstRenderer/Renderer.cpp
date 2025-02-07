@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "utils.h"
 void Renderer::renderLoop(const Scene& scene) const
 {
 	int i;
@@ -35,7 +36,8 @@ void Renderer::drawMesh(const Mesh& mesh) const {
 void Renderer::drawParticleSystem(const ParticleSystem& ps) const {
 	ps.shader->use();
 
-	ps.shader->setVec2("screenSize", glm::vec2(1600, 1200));
+	ps.shader->setFloat("targetDensity", ps.getTargetDensity());
+	ps.shader->setVec2("screenSize", glm::vec2(800, 600));
 
 	glBindVertexArray(ps.getVertices());
 
@@ -54,10 +56,7 @@ void Renderer::drawParticleSystem(const ParticleSystem& ps) const {
 	glDrawArrays(GL_POINTS, 0, ps.count());
 
 	// 6. Check for errors
-	GLenum err;
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "OpenGL error: 0x" << std::hex << err << std::endl;
-	}
+	printErrors();
 
 	glDisable(GL_PROGRAM_POINT_SIZE);
 	glDisable(GL_BLEND);

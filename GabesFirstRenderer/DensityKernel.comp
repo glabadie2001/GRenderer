@@ -2,21 +2,36 @@
 layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 layout(std430, binding = 0) buffer input_layout
 {
-    float InDensities[];
-    layout(offset = 20000) uint SpatialOffsets[];  // Explicit offset
-    layout(offset = 40000) uvec4 SpatialIndices[];
-    layout(offset = 120000) vec2 PredictedPositions[];
+    uint SpatialOffsets[];
+    vec2 PredictedPositions[];
+	uvec4 SpatialIndices[];
 };
 layout(std430, binding = 1) buffer output_layout
 {
-	vec2 OutDensities[];
-	//float OutNearDensities[];
+	float OutDensities[]; // Regular densities
+    float OutNearDensities[]; // Near densities
 };
 
 uniform float smoothingRadius;
 uniform uint numParticles;
 uniform float SpikyPow2ScalingFactor;
 uniform float SpikyPow3ScalingFactor;
+
+// Function to calculate aligned size (similar to CPU-side calculation)
+uint getAlignedSize(uint elementSize, uint alignment, uint count) {
+    return (elementSize * count + alignment - 1u) & ~(alignment - 1u);
+}
+
+// In main:
+// First calculate aligned size of SpatialOffsets (uint array, 4-byte align)
+uint offsetsAlignedSize = getAlignedSize(4u, 8u, numParticles);
+// This gives us positionsOffset in vec2s (8 bytes each)
+uint positionsOffset = offsetsAlignedSize / 8u;
+
+// Now for indices, we need both previous aligned sizes
+uint positionsAlignedSize = getAlignedSize(8u, 16u, numParticles);
+// Calculate indicesOffset in uvec4s (each uvec4 is 16 bytes)
+uint indicesOffset = (offsetsAlignedSize + positionsAlignedSize) / 16u;
 
 const vec2 offsets2D[9] =
 {
@@ -32,8 +47,8 @@ const vec2 offsets2D[9] =
 };
 
 // Constants used for hashing
-const uint hashK1 = 15823;
-const uint hashK2 = 9737333;
+const uint hashK1 = 15823;   // Large prime
+const uint hashK2 = 9737333;   // Large prime
 
 // Convert floating point position into an integer cell coordinate
 vec2 GetCell2D(vec2 position, float radius)
@@ -46,12 +61,12 @@ uint HashCell2D(vec2 cell)
 {
 	uint a = uint(cell.x) * hashK1;
 	uint b = uint(cell.y) * hashK2;
-	return (a + b);
+	return (a + b);   
 }
 
 uint KeyFromHash(uint hash, uint tableSize)
 {
-	return hash % tableSize;
+    return hash % tableSize;
 }
 
 float DensityKernel(float dst, float radius)
@@ -84,13 +99,15 @@ vec2 CalculateDensity(vec2 pos)
 	// Neighbour search
 	for (int i = 0; i < 9; i++)
 	{
+		//density += 0.1;  
 		uint hash = HashCell2D(originCell + offsets2D[i]);
 		uint key = KeyFromHash(hash, numParticles);
 		uint currIndex = SpatialOffsets[key];
 
 		while (currIndex < numParticles)
 		{
-			uvec3 indexData = SpatialIndices[currIndex].xyz;
+			//density += 0.1;  
+			uvec3 indexData = SpatialIndices[indicesOffset - 1 + currIndex].xyz;
 			currIndex++;
 			// Exit if no longer looking at correct bin
 			if (indexData.z != key) break;
@@ -98,7 +115,7 @@ vec2 CalculateDensity(vec2 pos)
 			if (indexData.y != hash) continue;
 
 			uint neighbourIndex = indexData.x;
-			vec2 neighbourPos = PredictedPositions[neighbourIndex];
+			vec2 neighbourPos = PredictedPositions[positionsOffset - 1 + neighbourIndex];
 			vec2 offsetToNeighbour = neighbourPos - pos;
 			float sqrDstToNeighbour = dot(offsetToNeighbour, offsetToNeighbour);
 
@@ -115,9 +132,11 @@ vec2 CalculateDensity(vec2 pos)
 	return vec2(density, nearDensity);
 }
 
-void main() {	
-	vec2 density = CalculateDensity(PredictedPositions[gl_GlobalInvocationID.x]);
-	//OutDensities[gl_GlobalInvocationID.x] = uint(SpatialOffsets[gl_GlobalInvocationID.x]);
-	OutDensities[gl_GlobalInvocationID.x] = density;
-	//OutNearDensities[gl_GlobalInvocationID.x] = density.y;
+void main() {
+	
+
+    vec2 density = CalculateDensity(PredictedPositions[positionsOffset - 1 + gl_GlobalInvocationID.x]);
+	//OutPos[gl_GlobalInvocationID.x] = PredictedPositions[gl_GlobalInvocationID.x];
+    OutDensities[gl_GlobalInvocationID.x] = density.x;
+	OutNearDensities[gl_GlobalInvocationID.x + numParticles - 1] = density.y;
 }

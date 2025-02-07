@@ -6,8 +6,9 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <assert.h>
 
-ComputeShader::ComputeShader(const char* path)
+ComputeShader::ComputeShader(const char* path, size_t ioSize)
 {
     // 1. retrieve the vertex/fragment source code from filePath
     std::string computeCode;
@@ -38,21 +39,18 @@ ComputeShader::ComputeShader(const char* path)
     compute = compile(cShaderCode, GL_COMPUTE_SHADER);
 
     // shader Program
-    ID = glCreateProgram();
-    glAttachShader(ID, compute);
-    glLinkProgram(ID);
-    checkCompileErrors(ID, "PROGRAM");
+    _ID = glCreateProgram();
+    glAttachShader(_ID, compute);
+    glLinkProgram(_ID);
+    checkCompileErrors(_ID, "PROGRAM");
+
+    inputSSBO = new Buffer(ioSize);
+    outputSSBO = new Buffer(ioSize);
 
     // delete the shaders as they're linked into our program now and no longer necessary
     glDeleteShader(compute);
 
-    glGenBuffers(1, &inputSSBO);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, inputSSBO);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, inputSSBO);
-
-    glGenBuffers(1, &outputSSBO);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, outputSSBO);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, outputSSBO);
+    glUseProgram(0);
 }
 
 unsigned int ComputeShader::compile(const char* shaderCode, int type) {
@@ -69,39 +67,18 @@ unsigned int ComputeShader::compile(const char* shaderCode, int type) {
     return shader;
 }
 
-void ComputeShader::allocate(size_t totalSize) {
-    _bufferSize = totalSize;
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, inputSSBO);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, totalSize, nullptr, GL_DYNAMIC_COPY);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, inputSSBO);
-
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, outputSSBO);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, totalSize, nullptr, GL_DYNAMIC_COPY);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, outputSSBO);
-}
-
-void* ComputeShader::read(size_t amount, size_t unitSize, size_t offset) {
-    if (!_bufferSize) return nullptr;
-    void* output = new void*[amount / unitSize];
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, outputSSBO);
-    glGetBufferSubData(GL_SHADER_STORAGE_BUFFER, offset, amount, output);
-    return output;
-}
-
-void ComputeShader::write(void* dataIn, size_t size, size_t offset) {
-    if (offset + size > _bufferSize) {
-        throw std::runtime_error("Buffer overflow");
-    }
-
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, inputSSBO);
-    glBufferSubData(GL_SHADER_STORAGE_BUFFER, offset, size, dataIn);
-}
-
 // activate the shader
 // ------------------------------------------------------------------------
 void ComputeShader::use()
 {
-    glUseProgram(ID);
+    glUseProgram(_ID);
+}
+
+void ComputeShader::bind() {
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, *inputSSBO);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, *inputSSBO);
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, *outputSSBO);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, *outputSSBO);
 }
 
 // utility function for checking shader compilation/linking errors.

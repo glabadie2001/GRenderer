@@ -63,6 +63,9 @@
     <ClCompile Include="ComputeShader.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="BufferLayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h">
@@ -83,14 +86,20 @@
     <ClInclude Include="utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpatialHash.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="SpatialHashMap.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="ComputeShader.h">
       <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +118,8 @@
     <None Include="DensityKernel.comp">
       <Filter>Resource Files\Compute</Filter>
     </None>
-    <None Include="PressureKernel.comp" />
+    <None Include="PressureKernel.comp">
+      <Filter>Resource Files\Compute</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,6 +1,5 @@
-﻿  ParticleSystem.cpp
-  Renderer.cpp
-  Scene.cpp
-  main.cpp
-  Generating Code...
+﻿  main.cpp
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\Buffer.h(30,33): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'main.cpp')
+  
   GabesFirstRenderer.vcxproj -> C:\Users\glaba\Documents\GitHub\GRenderer\x64\Debug\GabesFirstRenderer.exe

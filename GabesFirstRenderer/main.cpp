@@ -96,9 +96,9 @@ Scene* testScene() {
 Scene* particleScene() {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	Scene* partScene = new Scene();
-	int pCount = 5000;
+	int pCount = 10000;
 
-	partScene->add(new ParticleSystem(pCount, particleShader, 1600, 1200));
+	partScene->add(new ParticleSystem(pCount, particleShader, 800, 600));
 
 
 	return partScene;
@@ -117,11 +117,11 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow* window = create_window(1600, 1200);
+	GLFWwindow* window = create_window(800, 600);
 
 	initGLAD();
 
-	glViewport(0, 0, 1600, 1200);
+	glViewport(0, 0, 800, 600);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
@@ -140,6 +140,7 @@ int main() {
 	 */
 	while (!glfwWindowShouldClose(window))
 	{
+		std::cout << "------------------- START FRAME -------------------" << std::endl;
 		// Measure speed
 		prevTime = currTime;
 		currTime = (float)glfwGetTime();

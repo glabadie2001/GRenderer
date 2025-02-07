@@ -25,9 +25,9 @@ glm::uvec4* SpatialHashMap::getMap() const {
 
 float* SpatialHashMap::getCells() const {
     int i;
-    /*
-    int j;
-    glm::vec2 root = glm::vec2(10, 10);
+    
+    /*int j;
+    glm::vec2 root = glm::vec2(1, 0);
     int* captures = new int[10];
     captures[0] = SpatialHashMap::hashCell(root);
 
@@ -39,19 +39,19 @@ float* SpatialHashMap::getCells() const {
     float* res = new float[count()];
     for (i = 0; i < count(); i++) {
         int swapped = 0;
-        SpatialHash* entry = get(i);
+        glm::uvec4 entry = get(i);
         for (j = 0; j < count(); j++) {
-            if (entry->_cellKey == captures[j]) {
-                res[entry->_index] = (float)(entry->_cellKey);
+            if (entry[1] == captures[j]) {
+                res[entry[0]] = (float)(entry[2]);
                 swapped = 1;
                 break;
             }
         }
         if (swapped) continue;
-        res[entry->_index] = 0;
+        res[entry[0]] = 0;
     }
 
-    delete[] captures*/;
+    delete[] captures;*/
 
     float* res = new float[count()];
     for (i = 0; i < count(); i++) {
@@ -86,48 +86,68 @@ void merge(glm::uvec4* arr, int left, int mid, int right) {
     int n1 = mid - left;
     int n2 = right - mid;
 
-    // Create temporary arrays
-    glm::uvec4* leftArr = new glm::uvec4 [n1];
-    glm::uvec4* rightArr = new glm::uvec4 [n2];
+    glm::uvec4* leftArr = new glm::uvec4[n1];
+    glm::uvec4* rightArr = new glm::uvec4[n2];
 
-    // Copy data to temporary arrays
-    for (int i = 0; i < n1; i++)
-        leftArr[i] = arr[left + i];
-    for (int i = 0; i < n2; i++)
-        rightArr[i] = arr[mid + i];
+    // Explicit component-wise copy
+    for (int i = 0; i < n1; i++) {
+        leftArr[i][0] = arr[left + i][0];
+        leftArr[i][1] = arr[left + i][1];
+        leftArr[i][2] = arr[left + i][2];
+        leftArr[i][3] = arr[left + i][3];
+    }
 
-    // Merge the temporary arrays back
-    int i = 0;    // Initial index of left subarray
-    int j = 0;    // Initial index of right subarray
-    int k = left; // Initial index of merged subarray
+    for (int i = 0; i < n2; i++) {
+        rightArr[i][0] = arr[mid + i][0];
+        rightArr[i][1] = arr[mid + i][1];
+        rightArr[i][2] = arr[mid + i][2];
+        rightArr[i][3] = arr[mid + i][3];
+    }
+
+    int i = 0;
+    int j = 0;
+    int k = left;
 
     while (i < n1 && j < n2) {
         if (leftArr[i][2] <= rightArr[j][2]) {
-            arr[k] = leftArr[i];
+            // Explicit component-wise copy
+            arr[k][0] = leftArr[i][0];
+            arr[k][1] = leftArr[i][1];
+            arr[k][2] = leftArr[i][2];
+            arr[k][3] = leftArr[i][3];
             i++;
         }
         else {
-            arr[k] = rightArr[j];
+            // Explicit component-wise copy
+            arr[k][0] = rightArr[j][0];
+            arr[k][1] = rightArr[j][1];
+            arr[k][2] = rightArr[j][2];
+            arr[k][3] = rightArr[j][3];
             j++;
         }
         k++;
     }
 
-    // Copy remaining elements of leftArr[] if any
     while (i < n1) {
-        arr[k] = leftArr[i];
+        // Explicit component-wise copy
+        arr[k][0] = leftArr[i][0];
+        arr[k][1] = leftArr[i][1];
+        arr[k][2] = leftArr[i][2];
+        arr[k][3] = leftArr[i][3];
         i++;
         k++;
     }
 
-    // Copy remaining elements of rightArr[] if any
     while (j < n2) {
-        arr[k] = rightArr[j];
+        // Explicit component-wise copy
+        arr[k][0] = rightArr[j][0];
+        arr[k][1] = rightArr[j][1];
+        arr[k][2] = rightArr[j][2];
+        arr[k][3] = rightArr[j][3];
         j++;
         k++;
     }
 
-    // Free temporary arrays
     delete[] leftArr;
     delete[] rightArr;
 }
@@ -158,15 +178,16 @@ void SpatialHashMap::updateMap(const glm::vec2* points, unsigned count, float ra
         glm::vec2 cellCoord = positionToCellCoord(points[i], radius);
         unsigned cellHash = hashCell(cellCoord);
         unsigned cellKey = keyFromHash(cellHash, _count);
+        //std::cout << "(" << points[i].x << ", " << points[i].y << "): " << "(" << cellCoord.x << ", " << cellCoord.y << "), " << cellHash << ", " << cellKey << std::endl;
         _spatialIndices[i] = glm::uvec4(i, cellHash, cellKey, 0);
-        _spatialOffsets[i] = count;
+        _spatialOffsets[i] = UINT_MAX;
     }
 
     sort();
 
+    //Iterates through sorted indices
     for (unsigned i = 0; i < count; i++) {
         unsigned key = _spatialIndices[i][2];
-        if (key >= _count) continue;
         unsigned keyPrev = (i == 0) ? UINT_MAX : _spatialIndices[i - 1][2];
         if (key != keyPrev)
             _spatialOffsets[key] = i;
