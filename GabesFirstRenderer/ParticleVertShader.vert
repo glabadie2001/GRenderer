@@ -6,17 +6,21 @@ layout (location = 3) in vec2 aVel;
 
 uniform vec2 screenSize;
 uniform float targetDensity;
+uniform mat4 projection;  // Orthographic projection matrix
 
 out vec4 vertexColor;
 out float density;
+
 void main()
 {
-    vec2 scaledPos = aPos / screenSize;
+    //vec2 scaledPos = aPos / screenSize;
     // Convert screen coordinates to clip space (-1 to 1)
-    vec2 clipPos = scaledPos * 2.0 - 1.0;
+    //vec2 clipPos = scaledPos * 2.0 - 1.0;
     
-    gl_Position = vec4(clipPos, 0.0, 1.0);
-    gl_PointSize = 10.0;
+    //gl_Position = vec4(clipPos, 0.0, 1.0);
+    
+    gl_Position = projection * vec4(aPos, 0.0, 1.0);
+    gl_PointSize = 5.0;
     
     density = aDen;
     //vertexColor = vec4(0.0, 0.0, aCell / 5000.0, 1.0);

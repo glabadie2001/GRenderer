@@ -5,11 +5,18 @@
 #include "ComputeShader.h"
 #include "SpatialHashMap.h"
 #include <functional>
+#include <glm/mat4x4.hpp>
 
 class ParticleSystem
 {
 	float _screenWidth;
 	float _screenHeight;
+
+	float _prevScreenWidth;
+	float _prevScreenHeight;
+	glm::vec2 _windowPosition;
+	glm::mat4 _projectionMatrix;
+	void updateProjectionMatrix();
 
 	SpatialHashMap* _spatialHash;
 
@@ -23,10 +30,10 @@ class ParticleSystem
 
 	int _particleCount;
 	int _vertices;
-	const float _targetDensity = 1.0f;
+	const float _targetDensity = 0.01f;
 	const float _pressureMultiplier = 100.0f;
-	const float _nearPressureMultiplier = 10.1f;
-	const float _smoothingRadius = 50.0f;
+	const float _nearPressureMultiplier = 100.1f;
+	const float _smoothingRadius = 25.0f;
 
 	int* _startIndices;
 
@@ -37,35 +44,16 @@ public:
 	const float SpikyPow2ScalingFactor = 6 / (PI * std::powf(_smoothingRadius, 4));
 	const float SpikyPow3DerivativeScalingFactor = 30 / (std::powf(_smoothingRadius, 5) * PI);
 	const float SpikyPow2DerivativeScalingFactor = 12 / (std::powf(_smoothingRadius, 4) * PI);
-	float NearDensityKernel(float dst, float radius)
-	{
-		if (dst < radius)
-		{
-			float v = radius - dst;
-			return v * v * v * SpikyPow3ScalingFactor;
-		}
-		return 0;
-	}
-
-	float DensityKernel(float dst, float radius)
-	{
-		if (dst < radius)
-		{
-			float v = radius - dst;
-			return v * v * SpikyPow2ScalingFactor;
-		}
-		return 0;
-	}
 
 	Shader* shader;
-	glm::vec2 gravity = glm::vec2(0, 0);
+	glm::vec2 gravity = glm::vec2(0, -100);
 	glm::vec2* positions;
 	glm::vec2* predictedPositions;
 	glm::vec2* velocities;
 	float* densities;
 	float* nearDensities;
 	//Vector3* colors;
-	ParticleSystem(int count, Shader* shader, float screenWidth, float screenHeight);
+	ParticleSystem(int count, Shader* shader, float screenWidth, float screenHeight, float screenX, float screenY);
 	int count() const;
 	unsigned getVertices() const;
 	unsigned getVBO() const;
@@ -74,6 +62,49 @@ public:
 	glm::vec2 externalForces(int particleIndex);
 
 	void densityKernel(float deltaTime), pressureKernel(float deltaTime);
+
+	void setWindowPosition(float x, float y) {
+		_windowPosition = glm::vec2(x, y);
+		updateProjectionMatrix();
+	}
+
+	void updateScreenSize(float width, float height) {
+		shader->use();
+		shader->setVec2("screenSize", glm::vec2(width, height));
+		updateProjectionMatrix();
+		// Calculate the change in screen dimensions
+		float deltaWidth = width - _prevScreenWidth;
+		float deltaHeight = height - _prevScreenHeight;
+
+		// Calculate velocities for the "moving walls"
+		// Using small timestep to simulate wall movement
+		const float resizeTimeStep = 1.0f / 60.0f;
+		glm::vec2 wallVelocity(deltaWidth / resizeTimeStep, deltaHeight / resizeTimeStep);
+
+		// Update particles based on wall movement
+		for (int i = 0; i < _particleCount; i++) {
+			// Handle right wall movement
+			if (deltaWidth < 0 && positions[i].x > width) {
+				// Apply an impulse based on how far the wall has moved
+				float penetration = positions[i].x - width;
+				velocities[i].x = wallVelocity.x * 0.8f; // Scale factor for smoother interaction
+				positions[i].x = width - penetration * 0.1f; // Push particle slightly inside
+			}
+
+			// Handle bottom wall movement
+			if (deltaHeight < 0 && positions[i].y > height) {
+				float penetration = positions[i].y - height;
+				velocities[i].y = wallVelocity.y * 0.8f;
+				positions[i].y = height - penetration * 0.1f;
+			}
+
+			// Ensure particles stay within bounds
+			resolveCollisions(&positions[i], &velocities[i]);
+
+			// Update predicted positions for next simulation step
+			predictedPositions[i] = positions[i] + velocities[i] * (1.0f / 120.0f);
+		}
+	}
 
 	const float getTargetDensity() const {
 		return _targetDensity;

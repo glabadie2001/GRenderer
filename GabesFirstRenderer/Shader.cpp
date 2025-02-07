@@ -98,6 +98,10 @@ void Shader::setVec2(const std::string& name, glm::vec2 value) const
     glUniform2f(glGetUniformLocation(_ID, name.c_str()), value.x, value.y);
 }
 
+void Shader::setMat4(const std::string& name, const glm::mat4& mat) const {
+    glUniformMatrix4fv(glGetUniformLocation(_ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+}
+
 // utility function for checking shader compilation/linking errors.
 // ------------------------------------------------------------------------
 void Shader::checkCompileErrors(unsigned int shader, std::string type, int duration)

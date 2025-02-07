@@ -10,6 +10,7 @@
 
 using namespace std;
 
+GLFWwindow* window;
 Renderer renderer;
 Scene* scene;
 Shader* densityShader;
@@ -43,6 +44,20 @@ void initGLAD() {
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+	renderer.updateScreenSize(*scene, width, height);
+	scene->update(deltaTime);
+	renderer.renderLoop(*scene);
+
+	glfwSwapBuffers(window);
+}
+
+void window_pos_callback(GLFWwindow* window, int x, int y)
+{
+	renderer.updateWindowPosition(*scene, x, y);
+	scene->update(deltaTime);
+	renderer.renderLoop(*scene);
+
+	glfwSwapBuffers(window);
 }
 
 GLFWwindow* create_window(int width, int height) {
@@ -98,8 +113,13 @@ Scene* particleScene() {
 	Scene* partScene = new Scene();
 	int pCount = 10000;
 
-	partScene->add(new ParticleSystem(pCount, particleShader, 800, 600));
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
 
+	int x, y;
+	glfwGetWindowPos(window, &x, &y);
+
+	partScene->add(new ParticleSystem(pCount, particleShader, width, height, x, y));
 
 	return partScene;
 }
@@ -117,12 +137,13 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow* window = create_window(800, 600);
+	window = create_window(800, 600);
 
 	initGLAD();
 
 	glViewport(0, 0, 800, 600);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetWindowPosCallback(window, window_pos_callback);
 
 	std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
 	std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
@@ -168,7 +189,7 @@ int main() {
 
 	delete scene;
 	delete densityShader;
-	//delete window;
+	//delete particleShader;
 
 	return 0;
 }

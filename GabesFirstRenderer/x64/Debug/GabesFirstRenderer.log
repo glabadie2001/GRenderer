@@ -2,4 +2,12 @@
 C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\Buffer.h(30,33): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'main.cpp')
   
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(47,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(47,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(56,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(56,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(122,78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(122,75): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(122,67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\glaba\Documents\GitHub\GRenderer\GabesFirstRenderer\main.cpp(122,60): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   GabesFirstRenderer.vcxproj -> C:\Users\glaba\Documents\GitHub\GRenderer\x64\Debug\GabesFirstRenderer.exe

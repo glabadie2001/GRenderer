@@ -8,7 +8,7 @@
 #include <sstream>
 #include <iostream>
 #include <glm/vec2.hpp>
-
+#include <glm/mat4x4.hpp>
 
 class Shader
 {
@@ -27,6 +27,7 @@ public:
     void setInt(const std::string& name, int value) const;
     void setFloat(const std::string& name, float value) const;
     void setVec2(const std::string& name, glm::vec2 value) const;
+    void setMat4(const std::string& name, const glm::mat4& mat) const;
 
     void checkCompileErrors(unsigned int shader, std::string type, int duration = -1);
 };

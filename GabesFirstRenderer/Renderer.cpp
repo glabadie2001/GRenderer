@@ -1,5 +1,28 @@
 #include "Renderer.h"
 #include "utils.h"
+void Renderer::updateScreenSize(const Scene& scene, float width, float height) {
+	_screenWidth = width;
+	_screenHeight = height;
+
+	std::vector<ParticleSystem*> psList = scene.getParticleSystems();
+
+	int i;
+	for (i = 0; i < psList.size(); i++) {
+		psList[i]->updateScreenSize(width, height);
+	}
+}
+
+void Renderer::updateWindowPosition(const Scene& scene, float x, float y) {
+	_screenX = x;
+	_screenY = y;
+	std::vector<ParticleSystem*> psList = scene.getParticleSystems();
+
+	int i;
+	for (i = 0; i < psList.size(); i++) {
+		psList[i]->setWindowPosition(x, y);
+	}
+}
+
 void Renderer::renderLoop(const Scene& scene) const
 {
 	int i;

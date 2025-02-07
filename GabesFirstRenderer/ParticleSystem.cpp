@@ -1,5 +1,6 @@
 #include "ParticleSystem.h"
 #include "glm/vec2.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include "utils.h"
 #include "SpatialHashMap.h"
 #include "ComputeShader.h"
@@ -18,11 +19,12 @@ static float ViscosityKernel(float dst, float radius)
 	return 0;
 }
 
-ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, float screenHeight) {
+ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, float screenHeight, float screenX, float screenY) {
 	this->shader = shader;
 	_particleCount = count;
 	_screenWidth = screenWidth;
 	_screenHeight = screenHeight;
+	_windowPosition = glm::vec2(screenX, screenY);
 
 	_spatialHash = new SpatialHashMap(_particleCount);
 
@@ -45,8 +47,33 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 
 	int numX = (int)std::ceil(std::sqrt(spacing.x / spacing.y * _particleCount + (spacing.x - spacing.y) * (spacing.x - spacing.y) / (4 * spacing.y * spacing.y)) - (spacing.x - spacing.y) / (2 * spacing.y));
 	int numY = (int)std::ceil(_particleCount / (float)numX);
+	// When setting initial particle positions:
+	for (int y = 0; y < numY; y++) {
+		for (int x = 0; x < numX; x++) {
+			if (i >= _particleCount) break;
 
-	for (int y = 0; y < numY; y++)
+			float tx = numX <= 1 ? 0.5f : x / (numX - 1.0f);
+			float ty = numY <= 1 ? 0.5f : y / (numY - 1.0f);
+
+			// Position relative to window
+			glm::vec2 relativePos = glm::vec2(
+				(tx - 0.5f) * spacing.x + spawnCenter.x,
+				(ty - 0.5f) * spacing.y + spawnCenter.y
+			);
+
+			// Convert to screen space
+			positions[i] = relativePos + _windowPosition;
+
+			// Add jitter in screen space
+			float angle = (rand() % 360) * 3.14f * 2;
+			glm::vec2 dir = glm::vec2(std::cos(angle), std::sin(angle));
+			glm::vec2 jitter = dir * 0.025f * ((float)(rand() % 360) - 0.5f);
+			positions[i] += jitter;
+
+			i++;
+		}
+	}
+	/*for (int y = 0; y < numY; y++)
 	{
 		for (int x = 0; x < numX; x++)
 		{
@@ -70,7 +97,7 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 
 			i++;
 		}
-	}
+	}*/
 
 	for (i = 0; i < _particleCount; i++) {
 		//Random initialization
@@ -162,6 +189,8 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 	glUniform1ui(glGetUniformLocation(pressureCompute->_ID, "numParticles"), _particleCount);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
+	setWindowPosition(screenX, screenY);
+
 	std::cout << "Particle System Initialized with:" << std::endl;
 	std::cout << "Screen dimensions: " << _screenWidth << "x" << _screenHeight << std::endl;
 	std::cout << "Particle count: " << _particleCount << std::endl;
@@ -181,6 +210,22 @@ unsigned int ParticleSystem::getVBO() const {
 
 unsigned int ParticleSystem::getDensityBuff() const {
 	return _densityBuffer;
+}
+
+void ParticleSystem::updateProjectionMatrix() {
+	// Create view matrix that transforms from screen space to window space
+	glm::mat4 viewMatrix = glm::translate(glm::mat4(1.0f),
+		glm::vec3(-_windowPosition.x, -_windowPosition.y, 0.0f));
+
+	// Create orthographic projection for window space
+	_projectionMatrix = glm::ortho(0.0f, _screenWidth, 0.0f, _screenHeight);
+
+	// Combine projection and view matrices
+	glm::mat4 combined = _projectionMatrix * viewMatrix;
+
+	// Update shader
+	shader->use();
+	shader->setMat4("projection", combined);
 }
 
 glm::vec2 ParticleSystem::externalForces(int particleIndex) {
@@ -299,21 +344,27 @@ void ParticleSystem::simulate(float deltaTime) {
 void ParticleSystem::resolveCollisions(glm::vec2* pos, glm::vec2* vel) {
 	const float damping = 0.95f;
 
-	if (pos->x < 0) {
-		pos->x = 0;
+	// Convert window bounds to screen space
+	float leftBound = _windowPosition.x;
+	float rightBound = _windowPosition.x + _screenWidth;
+	float bottomBound = _windowPosition.y;
+	float topBound = _windowPosition.y + _screenHeight;
+
+	if (pos->x < leftBound) {
+		pos->x = leftBound;
 		vel->x *= -damping;
 	}
-	else if (pos->x > _screenWidth) {
-		pos->x = _screenWidth * sgn(pos->x);
+	else if (pos->x > rightBound) {
+		pos->x = rightBound;
 		vel->x *= -damping;
 	}
 
-	if (pos->y < 0) {
-		pos->y = 0;
+	if (pos->y < bottomBound) {
+		pos->y = bottomBound;
 		vel->y *= -damping;
 	}
-	else if (pos->y > _screenHeight) {
-		pos->y = _screenHeight * sgn(pos->y);
+	else if (pos->y > topBound) {
+		pos->y = topBound;
 		vel->y *= -damping;
 	}
 }
