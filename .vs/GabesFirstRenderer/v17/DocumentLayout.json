@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleSystem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\ParticleSystem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleVertShader.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\ParticleVertShader.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -11,18 +15,8 @@
       "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar_size.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Renderer.cpp||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\Renderer.cpp||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleSystem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|solutionrelative:GabesFirstRenderer\\ParticleSystem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{36671909-CD83-4B9A-9CE9-B673E3217372}|GabesFirstRenderer\\GabesFirstRenderer.vcxproj|C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Renderer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -36,11 +30,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\main.cpp",
               "RelativeDocumentMoniker": "GabesFirstRenderer\\main.cpp",
@@ -54,56 +48,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "ParticleVertShader.vert",
               "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleVertShader.vert",
               "RelativeDocumentMoniker": "GabesFirstRenderer\\ParticleVertShader.vert",
               "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleVertShader.vert",
               "RelativeToolTip": "GabesFirstRenderer\\ParticleVertShader.vert",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABYAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-02-07T13:27:56.004Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "delete_scalar_size.cpp",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar_size.cpp",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar_size.cpp",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar_size.cpp",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar_size.cpp",
-              "ViewState": "AgIAABEAAAAAAAAAAAAvwB4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-07T09:37:05.635Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "delete_scalar.cpp",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar.cpp",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar.cpp",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar.cpp",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\crt\\src\\vcruntime\\delete_scalar.cpp",
-              "ViewState": "AgIAABQAAAAAAAAAAAAvwCEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-07T09:18:32.187Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "ParticleSystem.cpp",
               "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleSystem.cpp",
               "RelativeDocumentMoniker": "GabesFirstRenderer\\ParticleSystem.cpp",
               "ToolTip": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\ParticleSystem.cpp",
               "RelativeToolTip": "GabesFirstRenderer\\ParticleSystem.cpp",
-              "ViewState": "AgIAAEwBAAAAAAAAAAAAAFQBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACIBAAAAAAAAAAAIwCkBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-02-07T09:14:28.372Z"
+              "WhenOpened": "2025-02-07T09:14:28.372Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "Renderer.h",
               "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Renderer.h",
               "RelativeDocumentMoniker": "GabesFirstRenderer\\Renderer.h",
@@ -115,7 +86,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "Renderer.cpp",
               "DocumentMoniker": "C:\\Users\\glaba\\Documents\\GitHub\\GRenderer\\GabesFirstRenderer\\Renderer.cpp",
               "RelativeDocumentMoniker": "GabesFirstRenderer\\Renderer.cpp",
