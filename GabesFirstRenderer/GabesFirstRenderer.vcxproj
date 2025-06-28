@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>C:\Users\glaba\Desktop\OpenGL\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Users\glaba\Desktop\OpenGL\includes;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\erich\OneDrive\Documents\Github\GRenderer\GabesFirstRenderer\lib;C:\Users\glaba\Desktop\OpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\erich\OneDrive\Documents\Github\GRenderer\GabesFirstRenderer\includes;C:\Users\glaba\Desktop\OpenGL\includes;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -157,6 +157,7 @@
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="SpatialHasher.comp" />
     <None Include="DensityFragment.frag" />
     <None Include="FragmentShader.frag" />
     <None Include="ParticleVertShader.vert" />

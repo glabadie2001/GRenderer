@@ -62,7 +62,7 @@ unsigned int ComputeShader::compile(const char* shaderCode, int type) {
     glCompileShader(shader);
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    checkCompileErrors(shader, "VERTEX", duration.count());
+    checkCompileErrors(shader, "COMPUTE", duration.count());
 
     return shader;
 }

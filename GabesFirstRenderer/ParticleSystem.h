@@ -27,11 +27,12 @@ class ParticleSystem
 	unsigned int _velBuffer;
 	ComputeShader* densityCompute;
 	ComputeShader* pressureCompute;
+	ComputeShader* hasherCompute;
 
 	int _particleCount;
 	int _vertices;
-	const float _targetDensity = 0.01f;
-	const float _pressureMultiplier = 100.0f;
+	const float _targetDensity = 0.1f;
+	const float _pressureMultiplier = 1000.0f;
 	const float _nearPressureMultiplier = 100.1f;
 	const float _smoothingRadius = 25.0f;
 
@@ -46,7 +47,7 @@ public:
 	const float SpikyPow2DerivativeScalingFactor = 12 / (std::powf(_smoothingRadius, 4) * PI);
 
 	Shader* shader;
-	glm::vec2 gravity = glm::vec2(0, -100);
+	glm::vec2 gravity = glm::vec2(0, -9.8);
 	glm::vec2* positions;
 	glm::vec2* predictedPositions;
 	glm::vec2* velocities;

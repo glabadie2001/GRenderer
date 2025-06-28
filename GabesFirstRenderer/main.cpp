@@ -111,7 +111,7 @@ Scene* testScene() {
 Scene* particleScene() {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	Scene* partScene = new Scene();
-	int pCount = 10000;
+	int pCount = 25000;
 
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);

@@ -121,5 +121,8 @@
     <None Include="PressureKernel.comp">
       <Filter>Resource Files\Compute</Filter>
     </None>
+    <None Include="SpatialHasher.comp">
+      <Filter>Resource Files\Compute</Filter>
+    </None>
   </ItemGroup>
 </Project>

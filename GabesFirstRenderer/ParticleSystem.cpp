@@ -35,8 +35,9 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 	densities = new float[_particleCount];
 	nearDensities = new float[_particleCount];
 	
-	densityCompute = new ComputeShader("DensityKernel.comp", 100000 + _particleCount * sizeof(glm::vec2));
-	pressureCompute = new ComputeShader("PressureKernel.comp", 140000 + _particleCount * sizeof(glm::vec4));
+	densityCompute = new ComputeShader("DensityKernel.comp", 0);
+	pressureCompute = new ComputeShader("PressureKernel.comp", 0);
+	hasherCompute = new ComputeShader("SpatialHasher.comp", 0);
 
 	srand(0);
 	
@@ -106,7 +107,7 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 		velocities[i] = glm::vec2(0.0f, 0.0f);
 	}
 
-	_spatialHash->updateMap(positions, _particleCount, _smoothingRadius);
+	_spatialHash->warmMap(positions, _particleCount, _smoothingRadius);
 
 	// Create and bind vertex array object
 	glGenVertexArrays(1, &_vao);
@@ -188,6 +189,19 @@ ParticleSystem::ParticleSystem(int count, Shader* shader, float screenWidth, flo
 	glUniform1f(glGetUniformLocation(pressureCompute->_ID, "smoothingRadius"), _smoothingRadius);
 	glUniform1ui(glGetUniformLocation(pressureCompute->_ID, "numParticles"), _particleCount);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	BufferLayout hashInLayout;
+	hashInLayout.addElement(sizeof(glm::vec2), 8, _particleCount, "predictedPositions");
+	hasherCompute->inputSSBO->setLayout(hashInLayout);
+
+
+	BufferLayout hashOutLayout;
+	hashOutLayout.addElement(sizeof(glm::uvec4), 16, _particleCount, "spatialIndices");
+	hasherCompute->outputSSBO->setLayout(hashOutLayout);
+
+	hasherCompute->use();
+	glUniform1f(glGetUniformLocation(hasherCompute->_ID, "smoothingRadius"), _smoothingRadius);
+	glUniform1ui(glGetUniformLocation(hasherCompute->_ID, "numParticles"), _particleCount);
 
 	setWindowPosition(screenX, screenY);
 
@@ -295,6 +309,12 @@ void ParticleSystem::simulate(float deltaTime) {
 
 	start = std::chrono::high_resolution_clock::now();
 	//Spatial Hash Kernel
+	/*hasherCompute->use();
+	hasherCompute->inputSSBO->write(predictedPositions, _particleCount * sizeof(glm::vec2), hasherCompute->inputSSBO->getOffset("predictedPositions"));
+	hasherCompute->bind();
+	glDispatchCompute(count(), 1, 1);
+	_spatialHash->_spatialIndices = (glm::uvec4*)hasherCompute->outputSSBO->read(_particleCount * sizeof(glm::uvec4));*/
+
 	_spatialHash->updateMap(predictedPositions, count(), _smoothingRadius);
 	end = std::chrono::high_resolution_clock::now();
 	duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);

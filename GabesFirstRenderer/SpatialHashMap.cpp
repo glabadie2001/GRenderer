@@ -1,3 +1,4 @@
+#include <chrono>
 #include "SpatialHashMap.h"
 #include "utils.h"
 
@@ -168,6 +169,8 @@ void SpatialHashMap::sort() {
     merge_sort(_spatialIndices, 0, _count);
 }
 
+
+
 void SpatialHashMap::updateMap(const glm::vec2* points, unsigned count, float radius) {
     if (count > _count) {
         return;
@@ -178,7 +181,35 @@ void SpatialHashMap::updateMap(const glm::vec2* points, unsigned count, float ra
         glm::vec2 cellCoord = positionToCellCoord(points[i], radius);
         unsigned cellHash = hashCell(cellCoord);
         unsigned cellKey = keyFromHash(cellHash, _count);
-        //std::cout << "(" << points[i].x << ", " << points[i].y << "): " << "(" << cellCoord.x << ", " << cellCoord.y << "), " << cellHash << ", " << cellKey << std::endl;
+        _spatialIndices[i] = glm::uvec4(i, cellHash, cellKey, 0);
+        _spatialOffsets[i] = UINT_MAX;
+    }
+
+    auto start = std::chrono::high_resolution_clock::now();
+    sort();
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "Sort: " << duration.count() << "ms" << std::endl;
+
+    //Iterates through sorted indices
+    for (unsigned i = 0; i < count; i++) {
+        unsigned key = _spatialIndices[i][2];
+        unsigned keyPrev = (i == 0) ? UINT_MAX : _spatialIndices[i - 1][2];
+        if (key != keyPrev)
+            _spatialOffsets[key] = i;
+    }
+}
+
+void SpatialHashMap::warmMap(const glm::vec2* points, unsigned count, float radius) {
+    if (count > _count) {
+        return;
+    }
+
+    for (unsigned i = 0; i < count; i++) {
+        //Create
+        glm::vec2 cellCoord = positionToCellCoord(points[i], radius);
+        unsigned cellHash = hashCell(cellCoord);
+        unsigned cellKey = keyFromHash(cellHash, _count);
         _spatialIndices[i] = glm::uvec4(i, cellHash, cellKey, 0);
         _spatialOffsets[i] = UINT_MAX;
     }

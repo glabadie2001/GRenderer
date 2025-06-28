@@ -28,6 +28,7 @@ public:
 	unsigned count() const;
 	void sort();
 	void updateMap(const glm::vec2* points, unsigned count, float radius);
+	void warmMap(const glm::vec2* points, unsigned count, float radius);
 
 	~SpatialHashMap();
 
